@@ -99,18 +99,18 @@ The Solution to address the problem of the lack of alignment is detailed in {{se
 Under the Passport Model, an Attester sends Evidence to a Verifier.
 The Verifier generates the Attestation Results and sends these back to the Attester.
 The Attester conveys the Attestation Results to the Relying Party to proof its trustworthiness.
-Fig. 1 and 2 show scenarios that multiple 
-heterogeneous Verifiers can introduce issues in a Passport 
+Fig. 1 and 2 show scenarios that multiple
+heterogeneous Verifiers can introduce issues in a Passport
 Model based system.
 
-In Fig. 1, if Verifier A is not trusted by the Relying Party, 
-Attestation Results sent by the Attester can always be rejected 
-by the Relying Party, which means that the Attester may end up 
-in a loop of producing and conveying Attestation Evidence and 
+In Fig. 1, if Verifier A is not trusted by the Relying Party,
+Attestation Results sent by the Attester can always be rejected
+by the Relying Party, which means that the Attester may end up
+in a loop of producing and conveying Attestation Evidence and
 wait for Attestation Results in vain, repeatedly.
 
 In Fig. 2, Verifier A generates positive Attestation Results
-for an Attester, while Verifier B generates negative Attestation 
+for an Attester, while Verifier B generates negative Attestation
 Results for the same Attester.
 To trick a Relying Party into putting unjustified trust in the Attester, an Attester can act maliciously by selectively forwarding only Attestation Results from Verifier A and not Verifier B. Such malicious behavior would render a trustworthiness assessment of Attesters by the Relying Party biased or unreliable.
 
