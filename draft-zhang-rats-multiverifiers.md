@@ -132,7 +132,32 @@ To trick a Relying Party into putting unjustified trust in the Attester, an Atte
    Figure 1: Passport Model with Verifier A not trusted by Relying 
 Party.
 
+         .-------------.
+         |             | Compare Evidence
+         |  Verifier A | against appraisal policy
+         |             |
+         '--------+----'
+             ^    |
+    Evidence |    | Attestation
+             |    | Result A (positive)
+             |    v
+         .---+--------.              .-------------. Compare
+         |            +------------->|             | Attestation
+         |  Attester  | Attestation  |   Relying   | Result against
+         |            | Result A     |    Party    | appraisal 
+         '---+--------'              '-------------' policy
+             |    ^
+    Evidence |    | Attestation
+             |    | Result B (negative)
+             |    | 
+             V    | 
+         .--------+----.
+         |             | Compare Evidence
+         |  Verifier B | against appraisal policy
+         |             |
+         '-------------'
 
+   Figure 2: Passport Model with cheating Attester
 # Two
 
 # Three  {#sec-three}
