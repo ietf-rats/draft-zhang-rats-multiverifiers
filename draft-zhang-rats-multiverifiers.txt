@@ -289,9 +289,8 @@ Table of Contents
    Relying Party, in place of each Verifier, so as to reduce the amount
    of Evidence generated.  The aggregation method implemented by the
    Relying Party is out of scope of this draft.  For example, the
-   majority vote could be viewed as a possible solution.
-
-   .---------.  .--------. .--------.  .--------.  .---.  |
+   majority vote could be viewed as a possible solution. .---------.
+   .--------. .--------.  .--------.  .---.  |
    Attester| |Verifier| |Verifier| |Verifier| | RP| | | | 1 | | 2 | |
    k | | | '---------' '--------' '--------' '--------' '---' | | | | |
    Time(VG_a) ~ ~ ~ ~ | | | | | |<----Nonce
@@ -305,10 +304,9 @@ Table of Contents
    {time(RX_v_1)-time(RG_v_1)} | | | |----Attestation
    Result--------->| | | | {time(RX_v_2)-
    time(RG_v_2)} | | | | |--------AR------->| | | | {time(RX_v_k)-
-   time(RG_v_k)} | | | | | time(AG_r) | | | | time(OP_r)
-
-   Figure 5: Background-Check Model with the support of the aggregation
-   of Attestation Results from multiple Verifiers.
+   time(RG_v_k)} | | | | | time(AG_r) | | | | time(OP_r) Figure 5:
+   Background-Check Model with the support of the aggregation of
+   Attestation Results from multiple Verifiers.
 
 3.2.  Verifier Manager
 
@@ -328,11 +326,10 @@ Table of Contents
    in this list, and picks n Verifiers out of it.  Then the Verifier
    manager sends these n Verifiers back to the Relying Party, as its
    recommended Verifiers.  In such a way, each Relying Party can
-   flexibly configure its policy for the trusted Verifier.
-
-   .---------.  .---------.  .--------.  .-------------.  | Endorser| |
-   Reference | | Verifier | | Relying Party| '+--------' | Value | |
-   Owner | | Owner | | | Provider | '----+-----' '-----+--------' |
+   flexibly configure its policy for the trusted Verifier. .---------.
+   .---------.  .--------.  .-------------.  | Endorser| | Reference | |
+   Verifier | | Relying Party| '+--------' | Value | | Owner | |
+   Owner | | | Provider | '----+-----' '-----+--------' |
    '-------+---' | | | | | | | Endorsements | Reference | Appraisal |
    Appraisal | | Values | Policy for | Policy for | | | Evidence |
    Attestation '-----------.  | | | Results | | | | v v v |
@@ -342,8 +339,7 @@ Table of Contents
    Attester | | Relying Party | '----------' '---------------' | ^
    Anchor seed Verifiers, | | Recommended parameter | | Verifiers | |
    .------------------.  | Verifier Manager | '------------------'
-
-                         Figure 6: Revised Data Flow based RFC9334
+   Figure 6: Revised Data Flow based RFC9334
 
 4.  Use cases
 
