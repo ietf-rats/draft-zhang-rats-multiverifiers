@@ -257,7 +257,7 @@ reduce the amount of Evidence generated. The aggregation method
 implemented by the Relying Party is out of scope of this draft. For
 example, the majority vote could be viewed as a possible solution.
 ```
-.---------.    .--------. .--------.    .--------.          .---.
+ .---------.    .--------. .--------.    .--------.          .---.
  | Attester|    |Verifier| |Verifier|    |Verifier|          | RP|
  |         |    |    1   | |   2    |    |    k   |          |   |
  '---------'    '--------' '--------'    '--------'           '---'
@@ -301,17 +301,27 @@ manager with this list of Verifiers, in together with certain
 parameters n, for example, the number of Verifiers that it expects
 to collect Attestation Results from. The Verifier manager matches
 this list with its local database of the groups of Verifiers, find
-the groups of Vherifiers that behave most close to the majority of
+the groups of Verifiers that behave most close to the majority of
 the Verifiers in this list, and picks n Verifiers out of it. Then
 the Verifier manager sends these n Verifiers back to the Relying
 Party, as its recommended Verifiers. In such a way, each Relying
 Party can flexibly configure its policy for the trusted Verifier.
+Notice that, the verifiers in the same group are expected to follow
+the same golden measurement, that is, they are expected to generate
+the same attestation results in the semantic point of view if
+they treate the same evidence in the samantic point of view. 
+When a relying party receives certain minority attesation results
+from certain verifiers, it can inform the verifier manager this 
+incidence and the verifier manager will reduce the reputation
+of these verifiers, and reduce the probability to recommend these
+verifiers to relying parties. So in the long run, the misbehaved
+verifiers will be punished. 
 ```
- .---------.   .---------.       .--------.       .-------------.
+ .---------.   .----------.     .----------.     .--------------.
  | Endorser|  | Reference |     | Verifier |     | Relying Party|
  '+--------'  | Value     |     | Owner    |     | Owner        |
-  |           | Provider  |     '----+-----'      '-----+--------'
-  |           '-------+---'           |                 |
+  |           | Provider  |     '----+-----'     '-----+--------'
+  |           '------+----'          |                 |
   |                  |               |                 |
   | Endorsements     | Reference     | Appraisal       | Appraisal
   |                  | Values        | Policy for      | Policy for
