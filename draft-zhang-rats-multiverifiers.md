@@ -114,6 +114,20 @@ for an Attester, while Verifier B generates negative Attestation
 Results for the same Attester.
 To trick a Relying Party into putting unjustified trust in the Attester, an Attester can act maliciously by selectively forwarding only Attestation Results from Verifier A and not Verifier B. Such malicious behavior would render a trustworthiness assessment of Attesters by the Relying Party biased or unreliable.
 
+.-------------.
+
+|             | Compare Evidence
+
+|  Verifier A | against appraisal policy
+
+|             |
+
+'--------+----'
+
+^    |
+
+Evidence |    | Attestation
+
 # Two
 
 # Three  {#sec-three}
