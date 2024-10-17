@@ -5,13 +5,13 @@
 COSE                                                            J. Zhang
 Internet-Draft                                                 H. Labiod
 Intended status: Standards Track     Huawei Technologies France S.A.S.U.
-Expires: 18 April 2025                                             T. Li
+Expires: 20 April 2025                                             T. Li
               Shield Lab, Singapore Research Center, Huawei Technologies
                                                            T. Giannetsos
                                                             UBITECH Ltd.
                                                              H. Birkholz
                                                           Fraunhofer SIT
-                                                         15 October 2024
+                                                         17 October 2024
 
 
           Handling Multiple Verifiers in the RATS Architecture
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 April 2025.
+   This Internet-Draft will expire on 20 April 2025.
 
 Copyright Notice
 
@@ -69,22 +69,31 @@ Table of Contents
 
    1.  Introduction
      1.1.  Passport Model Cases
-   2.  Two
-   3.  Three
-     3.1.   Use Cases
-     3.2.  Requirements Notation
-   4.  Modes of Use
-     4.1.  Timestamp then COSE (TTC)
-     4.2.  COSE then Timestamp (CTT)
-   5.  RFC 3161 Time-Stamp Tokens COSE Header Parameters
-     5.1.  3161-ttc
-     5.2.  3161-ctt
-   6.  Timestamp Processing
-   7.  Security Considerations
-   8.  IANA Considerations
-   9.  References
-     9.1.  Normative References
-     9.2.  Informative References
+     1.2.  Background-check Model
+   2.  Terminology
+   3.  Handing Multiple Verifiers
+     3.1.  Aggregation of Attestation Results from Multiple Verifiers
+     3.2.  Verifier Manager
+   4.  Use cases
+   5.  Security Consideration
+   6.  IANA Considerations
+   7.  References
+     7.1.  Informative References
+   8.  Three
+     8.1.   Use Cases
+     8.2.  Requirements Notation
+   9.  Modes of Use
+     9.1.  Timestamp then COSE (TTC)
+     9.2.  COSE then Timestamp (CTT)
+   10. RFC 3161 Time-Stamp Tokens COSE Header Parameters
+     10.1.  3161-ttc
+     10.2.  3161-ctt
+   11. Timestamp Processing
+   12. Security Considerations
+   13. IANA Considerations
+   14. References
+     14.1.  Normative References
+     14.2.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -113,7 +122,7 @@ Table of Contents
    Appraisal Policy for Evidence.  This lack of alignment can result in
    significant issues in both Passport Model and Background-check Model,
    which is detailed as follows.  The Solution to address the problem of
-   the lack of alignment is detailed in Section 3.
+   the lack of alignment is detailed in Section 8.
 
 1.1.  Passport Model Cases
 
@@ -138,9 +147,284 @@ Table of Contents
    B.  Such malicious behavior would render a trustworthiness assessment
    of Attesters by the Relying Party biased or unreliable.
 
-2.  Two
+        .-------------.
+        |             | Compare Evidence
+        |  Verifier A | against appraisal policy
+        |             |
+        '--------+----'
+            ^    |
+   Evidence |    | Attestation
+            |    | Result
+            |    v
+        .---+--------.              .-------------. Compare
+        |            +------------>X|             | Attestation
+        |  Attester  | Attestation  |   Relying   | Result against
+        |            | Result       |    Party    | appraisal
+        '------------'              '-------------' policy
 
-3.  Three
+   Figure 1: Passport Model with Verifier A not trusted by Relying
+   Party.
+
+        .-------------.
+        |             | Compare Evidence
+        |  Verifier A | against appraisal policy
+        |             |
+        '--------+----'
+            ^    |
+   Evidence |    | Attestation
+            |    | Result A (positive)
+            |    v
+        .---+--------.              .-------------. Compare
+        |            +------------->|             | Attestation
+        |  Attester  | Attestation  |   Relying   | Result against
+        |            | Result A     |    Party    | appraisal
+        '---+--------'              '-------------' policy
+            |    ^
+   Evidence |    | Attestation
+            |    | Result B (negative)
+            |    |
+            V    |
+        .--------+----.
+        |             | Compare Evidence
+        |  Verifier B | against appraisal policy
+        |             |
+        '-------------'
+
+   Figure 2: Passport Model with cheating Attester
+
+1.2.  Background-check Model
+
+   Under the Background-check Model, an Attester sends Evidence to a
+   Verifier via a Relaying Party, and the Verifier generates the
+   Attestation Results and sends them back to the Relying Party.
+
+   Fig. 3 and 4 show scenarios where multiple heterogeneous Verifiers
+   introduce potential issues in a Background-check Model.
+
+   In Fig. 3, even if a Verifier is trusted by a Relying Party, there is
+   no assurance that it is working as intended and only does what it is
+   supposed to do and nothing else.  If multiple Verifiers exist,
+   neither Evidence might reach all Verifiers nor all Attestation
+   Results might reach the Relying Party due to failing conveyance
+   mechanisms, or due to the Verifier itself being compromised or
+   malfunctioning., or hardware problems.
+
+   In Fig. 4, a Relying Party is able to alternate between Verifiers.
+   When these Verifiers are heterogeneous though, a Relying Party might
+   receive different or conflicting Attestation Results from them, which
+   means the trustworthy assessment of the Attester can rely (and fail)
+   on a specific selection of Verifiers made by at the Relying Party
+   side.
+
+                                   .-------------.
+                                   |             | Compare Evidence
+                                   |   Verifier  | against
+                                   |             | appraisal
+                                   |      x(2)   | policy
+                                   '--------+----'
+                                        ^   x(3)
+                               Evidence |   | Attestation
+                                        x(1)| Result
+                                        |   v
+      .------------.               .----|--------.
+      |            +-------------->|---'         | Compare
+      |            |               |             | Attestation
+      |  Attester  |   Evidence    |     Relying | Result against
+      |            |               |      Party  | appraisal policy
+      '------------'               '-------------'
+
+   Figure 3: A Background-Check Model where a Verifier is not available
+   because of 1) a Relying Party not being reachable by the Verifier, 2)
+   a malfunction of the Verifier.
+
+                                   .-------------.
+                                   |             | Compare Evidence
+                                   |   Verifier  | against
+                                   |      A      | appraisal
+                                   '--------+----' policy
+                                        ^   |
+                               Evidence |   | Attestation
+                                        |   | Result (positive)
+                                        |   v
+      .------------.               .----|--------. Compare
+      |            +-------------->|---'         | Attestation
+      |  Attester  |   Evidence    |     Relying | Result against
+      |            |               |      Party  | appraisal policy
+      '------------'               '----+--------'
+                                        |   ^
+                               Evidence |   | Attestation
+                                        |   | Result (negative)
+                                        v   |
+                                   .--------+----.
+                                   |             | Compare Evidence
+                                   |   Verifier  | against
+                                   |      B      | appraisal
+                                   '-------------' policy
+
+   Figure 4: A Background-Check Model conveying conflicting Attestation
+   Results originating from multiple Verifiers.
+
+2.  Terminology
+
+   The following terms are imported from [RFC9334]: Attester, Evidence,
+   Endorsement, Reference value, Appraisal Policy, Relying Party, and
+   Verifier.  Also imported are the time definitions time(VG), time(NS),
+   time(EG), time(ER), time(RG),time(RX), and time(OP) from that
+   document's Appendix A.
+
+   New relevant Events over Time: time(AG): the time at the event that
+   the Attestation Results for the same attester is aggregated.
+
+3.  Handing Multiple Verifiers
+
+   In this section, we follow the attestation data-flow based on the
+   Background-Check Model, to support robust aggregation of the
+   Attestation Results in an environment with heterogeneous verifiers.
+
+3.1.  Aggregation of Attestation Results from Multiple Verifiers
+
+   Fig. 5 below is a sequence diagram which updates Fig. 14 in [RFC9334]
+   to support the aggregation of Attestation Results from multiple
+   Verifiers in a Background-check Model.  The nonce is generated by the
+   Relying Party, in place of each Verifier, so as to reduce the amount
+   of Evidence generated.  The aggregation method implemented by the
+   Relying Party is out of scope of this draft.  For example, the
+   majority vote could be viewed as a possible solution.
+
+   .---------.  .--------. .--------.  .--------.  .---.  |
+   Attester| |Verifier| |Verifier| |Verifier| | RP| | | | 1 | | 2 | |
+   k | | | '---------' '--------' '--------' '--------' '---' | | | | |
+   Time(VG_a) ~ ~ ~ ~ | | | | | |<----Nonce
+   ---------------------------------------time(NS_r) Time(EG_a) | | | | 
+   | | | | | |-----Evidence{Nonce}------------------------------------
+   >| | |
+   time(ER_r_1) | |<-----Evidence{Nonce}---------------------| | | | |
+   time(ER_r_2) | time(RG_v_1) |<-Evidence{Nonce}---------------| | |
+   time(RG_v_2) | time(ER_r_k) | | | |<-Evidence{Nonce}--| | | |
+   time(RG_v_k) | | |--Attestation Result--------------------->| | |
+   {time(RX_v_1)-time(RG_v_1)} | | | |----Attestation
+   Result--------->| | | | {time(RX_v_2)-
+   time(RG_v_2)} | | | | |--------AR------->| | | | {time(RX_v_k)-
+   time(RG_v_k)} | | | | | time(AG_r) | | | | time(OP_r)
+
+   Figure 5: Background-Check Model with the support of the aggregation
+   of Attestation Results from multiple Verifiers.
+
+3.2.  Verifier Manager
+
+   Manually configuring the Verifiers in each Relying Party is not well
+   adapted to the changing of the network environment.  As there is no
+   guarantee of the availability and consolidation of these Verifiers in
+   the long term.  We introduce a new entity in RATS architecture, which
+   is the Verifier manager, to address these issues.  As shown in Fig.
+   6, after configuring the anchor seed Verifiers in the Relying Party,
+   which is typically a small set of trusted Verifiers by the Relying
+   Party.  The Relying Party can communicate with the Verifier manager
+   with this list of Verifiers, in together with certain parameters n,
+   for example, the number of Verifiers that it expects to collect
+   Attestation Results from.  The Verifier manager matches this list
+   with its local database of the groups of Verifiers, find the groups
+   of Vherifiers that behave most close to the majority of the Verifiers
+   in this list, and picks n Verifiers out of it.  Then the Verifier
+   manager sends these n Verifiers back to the Relying Party, as its
+   recommended Verifiers.  In such a way, each Relying Party can
+   flexibly configure its policy for the trusted Verifier.
+
+   .---------.  .---------.  .--------.  .-------------.  | Endorser| |
+   Reference | | Verifier | | Relying Party| '+--------' | Value | |
+   Owner | | Owner | | | Provider | '----+-----' '-----+--------' |
+   '-------+---' | | | | | | | Endorsements | Reference | Appraisal |
+   Appraisal | | Values | Policy for | Policy for | | | Evidence |
+   Attestation '-----------.  | | | Results | | | | v v v |
+   .-------------------------.  | .------>| Verifier +------.  | |
+   '-------------------------' | | | | | | Evidence Attestation | | |
+   Results | | | | | | v v .-----+----.  .---------------. |
+   Attester | | Relying Party | '----------' '---------------' | ^
+   Anchor seed Verifiers, | | Recommended parameter | | Verifiers | |
+   .------------------.  | Verifier Manager | '------------------'
+
+                         Figure 6: Revised Data Flow based RFC9334
+
+4.  Use cases
+
+   This Section illustrates some use cases that can benefit from an
+   architecture that takes multiple Verifiers into account.
+
+   Use case 1: Intent-driven Attestation Classification for Data Center
+   Network Solutions Need: Establishment of trust in a complex data
+   center environment comprising multiple VMs instantiated on
+   heterogeneous CPU architectures Solution: Attestation Verification
+   Service based on a harmonized set of components to be leveraged by
+   multiple Verifiers Source: TCG Trusted Application Protocol (TAP) Use
+   Cases [TAP]
+
+   Use case 2: Enhancing TEE Device Interface Security Protocol (TDISP)
+   Need: Enhance Trusted Execution Environment Provisioning (TEEP)
+   Architecture with TEE-I/O capabilities for the direct verification
+   assignment of specific system characteristics to targeted (remote)
+   Verifiers Solution: Harmonized Trusted Computing Base to Achieve
+   Secure interfaces and Key Management with Multiple Verifiers
+   attesting different device properties Source: [RFC9397] on TEEP
+   Architecture
+
+   Use case 3: Intra- and Inter-Domain Trusted Path Routing Need:
+   Trustworthiness Assessment of routing nodes (Attesters) against
+   multiple Verifiers (Control Plane Orchestrators) residing in
+   different network administrative domain Solution: Verification of
+   multiple attestation formats supporting reference integrity manifest
+   with constrained disclosure Source: Trusted Path Routine [I-D.voit-
+   rats-trustworthy-path-routing], network attestation for secure
+   routing [I-D.liu-nasr-requirements]
+
+   Use case 4: network endpoint assessment Need: provide resilience in
+   the attestation service Source: use case from [RFC9334]
+
+   Use case 5: Confidential Data Protection Need: avoid single Verifier
+   corruption, which leads to the leakage of data privacy.  Source: use
+   case from [RFC9334]
+
+5.  Security Consideration
+
+   [TBD]
+
+6.  IANA Considerations
+
+   [TBD]
+
+7.  References
+
+   ## Normative References [RFC9334] Birkholz, H., Thaler, D.,
+   Richardson, M., Smith, N., and W.  Pan, "Remote ATtestation
+   procedureS (RATS) Architecture", RFC 9334, DOI 10.17487/RFC9334,
+   January 2023, https://www.rfc-editor.org/rfc/rfc9334
+   (https://www.rfc-editor.org/rfc/rfc9334).
+
+   [I-D.voit-rats-trustworthy-path-routing] Voit, E., Gaddam, C.  R.,
+   Fedorkow, G., Birkholz, H., and M.  Chen, "Trusted Path Routing",
+   Work in Progress, Internet-Draft, draft-voit-rats-trustworthy-path-
+   routing- 09, 22 February 2024,
+   <https://datatracker.ietf.org/doc/html/draft-voit- rats-trustworthy-
+   path-routing-09>.
+
+7.1.  Informative References
+
+   [RFC9397] Pei, M., Tschofenig, H., Thaler, D., and D.  Wheeler,
+   "Trusted Execution Environment Provisioning (TEEP) Architecture", RFC
+   9397, DOI 10.17487/RFC9397, July 2023, https://www.rfc-
+   editor.org/info/rfc9397 (https://www.rfc-editor.org/info/rfc9397).
+
+   [I-D.liu-nasr-requirements] Liu, P.  C., "NASR Use Case and
+   Requirements", Work in Progress, Internet-Draft, draft- liu-nasr-
+   requirements-01, 8 February 2024,
+   <https://datatracker.ietf.org/doc/html/draft- liu-nasr-requirements-
+   01>.
+
+   [TAP] Trusted Computing Group, "TCG Trusted Attestation Protocol
+   (TAP) Use Cases for TPM Families 1.2 and 2.0 and DICE", Nov. 2019,
+   <https://trustedcomputinggroup.org/wp-content/uploads/
+   TCG_TNC_TAP_Use_Cases_v1r0p35_published.pdf)>.
+
+8.  Three
 
    RFC 3161 [RFC3161] provides a method to timestamp a message digest to
    prove that it was created before a given time.
@@ -151,10 +435,10 @@ Table of Contents
    infrastructure to be used with COSE structures used for signing
    (COSE_Sign and COSE_Sign1).
 
-3.1.   Use Cases
+8.1.   Use Cases
 
    This section discusses two use cases, each representing one of the
-   two modes of use defined in Section 4.
+   two modes of use defined in Section 9.
 
    A first use case is a digital document signed alongside a trustworthy
    timestamp.  This is a common case in legal contracts.  In such
@@ -168,7 +452,7 @@ Table of Contents
    maliciously altered or simply inaccurate.
 
    This usage scenario motivates the "Timestamp then COSE" mode defined
-   in Section 4.1.
+   in Section 9.1.
 
    A second use case is the notarization of a signed document by
    registering it at a Transparency Service.  This is common for
@@ -185,9 +469,9 @@ Table of Contents
    has been made public before the time asserted in the TST.
 
    This usage scenario motivates the "COSE then Timestamp" mode
-   described in Section 4.2.
+   described in Section 9.2.
 
-3.2.  Requirements Notation
+8.2.  Requirements Notation
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -195,7 +479,7 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-4.  Modes of Use
+9.  Modes of Use
 
    There are two different modes of composing COSE protection and
    timestamping, motivated by the usage scenarios discussed above.
@@ -206,7 +490,7 @@ Table of Contents
    multiple private-key boxes and replacing the label [signature] with
    [signatures].
 
-4.1.  Timestamp then COSE (TTC)
+9.1.  Timestamp then COSE (TTC)
 
    shows the case where a datum is first digested and submitted to a TSA
    to be timestamped.
@@ -223,7 +507,7 @@ Table of Contents
    The message imprint sent to the TSA (Section 2.4 of [RFC3161]) MUST
    be the hash of the payload field of the COSE signed object.
 
-4.2.  COSE then Timestamp (CTT)
+9.2.  COSE then Timestamp (CTT)
 
    shows the case where the signature(s) field of the signed COSE object
    is digested and submitted to a TSA to be timestamped.  The obtained
@@ -236,18 +520,18 @@ Table of Contents
    In this context, timestamp tokens are similar to a countersignature
    made by the TSA.
 
-5.  RFC 3161 Time-Stamp Tokens COSE Header Parameters
+10.  RFC 3161 Time-Stamp Tokens COSE Header Parameters
 
-   The two modes described in Section 4.1 and Section 4.2 use different
+   The two modes described in Section 9.1 and Section 9.2 use different
    inputs into the timestamping machinery, and consequently create
    different kinds of binding between COSE and TST.  To clearly separate
    their semantics two different COSE header parameters are defined as
    described in the following subsections.
 
-5.1.  3161-ttc
+10.1.  3161-ttc
 
    The 3161-ttc COSE _protected_ header parameter MUST be used for the
-   mode described in Section 4.1.
+   mode described in Section 9.1.
 
    The 3161-ttc protected header parameter contains a DER-encoded
    RFC3161 TimeStampToken wrapped in a CBOR byte string (Major type 2).
@@ -256,10 +540,10 @@ Table of Contents
    COSE message SHOULD be the same as the algorithm used in the RFC3161
    MessageImprint.
 
-5.2.  3161-ctt
+10.2.  3161-ctt
 
    The 3161-ctt COSE _unprotected_ header parameter MUST be used for the
-   mode described in Section 4.2.
+   mode described in Section 9.2.
 
    The message imprint sent in the request to the TSA MUST be either:
 
@@ -275,7 +559,7 @@ Table of Contents
    The 3161-ctt unprotected header parameter contains a DER-encoded
    RFC3161 TimeStampToken wrapped in a CBOR byte string (Major type 2).
 
-6.  Timestamp Processing
+11.  Timestamp Processing
 
    RFC 3161 timestamp tokens use CMS as signature envelope format.
    [STD70] provides the details about signature verification, and
@@ -294,7 +578,7 @@ Table of Contents
    timestamp tokens can be used to verify signatures of a timestamped
    message when utilizing X.509 certificates.
 
-7.  Security Considerations
+12.  Security Considerations
 
    Please review the Security Considerations section in [RFC3161]; these
    considerations apply to this document as well.
@@ -327,7 +611,7 @@ Table of Contents
    Such a mechanism can be employed inside the ones described in this
    specification, but is out of scope for this document.
 
-8.  IANA Considerations
+13.  IANA Considerations
 
    IANA is requested to add the COSE header parameters defined in
    Table 1 to the "COSE Header Parameters" registry
@@ -339,18 +623,18 @@ Table of Contents
    +==========+=======+=======+==========+=================+===========+
    | 3161-tcc | TBD1  | bstr  | -        | RFC 3161        | RFCthis,  |
    |          |       |       |          | timestamp       | Section   |
-   |          |       |       |          | token           | 5.1       |
+   |          |       |       |          | token           | 10.1      |
    +----------+-------+-------+----------+-----------------+-----------+
    | 3161-ctt | TBD2  | bstr  | -        | RFC 3161        | RFCthis,  |
    |          |       |       |          | timestamp       | Section   |
-   |          |       |       |          | token           | 5.2       |
+   |          |       |       |          | token           | 10.2      |
    +----------+-------+-------+----------+-----------------+-----------+
 
                     Table 1: New COSE Header Parameters
 
-9.  References
+14.  References
 
-9.1.  Normative References
+14.1.  Normative References
 
    [IANA.cose_header-parameters]
               IANA, "COSE Header Parameters",
@@ -379,7 +663,7 @@ Table of Contents
               DOI 10.17487/RFC9052, August 2022,
               <https://www.rfc-editor.org/rfc/rfc9052>.
 
-9.2.  Informative References
+14.2.  Informative References
 
    [RFC9334]  Birkholz, H., Thaler, D., Richardson, M., Smith, N., and
               W. Pan, "Remote ATtestation procedureS (RATS)
