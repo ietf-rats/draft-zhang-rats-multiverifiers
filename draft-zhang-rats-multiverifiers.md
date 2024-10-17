@@ -158,7 +158,90 @@ Party.
          '-------------'
 
    Figure 2: Passport Model with cheating Attester
-# Two
+
+## Background-check Model
+   Under the Background-check Model, an Attester sends Evidence to a 
+Verifier via a Relaying Party, and the Verifier generates the 
+Attestation Results and sends them back to the Relying Party. 
+
+   Fig. 3 and 4 show scenarios where multiple heterogeneous Verifiers 
+introduce potential issues in a Background-check Model.  
+
+   In Fig. 3, even if a Verifier is trusted by a Relying Party, 
+there is no assurance that it is working as intended and only does what 
+it is supposed to do and nothing else. If multiple Verifiers exist, 
+neither Evidence might reach all Verifiers nor all Attestation Results 
+might reach the Relying Party due to failing conveyance mechanisms, or 
+due to the Verifier itself being compromised or malfunctioning.,
+or hardware problems. 
+
+  In Fig. 4, a Relying Party is able to alternate between Verifiers.
+When these Verifiers are heterogeneous though, a Relying Party might 
+receive different or conflicting Attestation Results from them, which
+means the trustworthy assessment of the Attester can rely (and fail) 
+on a specific selection of Verifiers made by at the Relying Party side.
+
+                                    .-------------.
+                                    |             | Compare Evidence
+                                    |   Verifier  | against 
+                                    |             | appraisal
+                                    |      x(2)   | policy
+                                    '--------+----'
+                                         ^   x(3)
+                                Evidence |   | Attestation
+                                         x(1)| Result
+                                         |   v
+       .------------.               .----|--------.
+       |            +-------------->|---'         | Compare 
+       |            |               |             | Attestation
+       |  Attester  |   Evidence    |     Relying | Result against
+       |            |               |      Party  | appraisal policy
+       '------------'               '-------------'
+
+   Figure 3: A Background-Check Model where a Verifier is not available 
+because of 1) a Relying Party not being reachable by the Verifier, 2) 
+a malfunction of the Verifier.
+
+                                    .-------------.
+                                    |             | Compare Evidence
+                                    |   Verifier  | against 
+                                    |      A      | appraisal
+                                    '--------+----' policy
+                                         ^   |
+                                Evidence |   | Attestation
+                                         |   | Result (positive)
+                                         |   v
+       .------------.               .----|--------. Compare
+       |            +-------------->|---'         | Attestation 
+       |  Attester  |   Evidence    |     Relying | Result against
+       |            |               |      Party  | appraisal policy
+       '------------'               '----+--------'
+                                         |   ^
+                                Evidence |   | Attestation
+                                         |   | Result (negative)
+                                         v   |
+                                    .--------+----.
+                                    |             | Compare Evidence
+                                    |   Verifier  | against 
+                                    |      B      | appraisal
+                                    '-------------' policy
+
+Figure 4: A Background-Check Model conveying conflicting Attestation
+Results originating from multiple Verifiers.
+
+# Terminology
+
+   The following terms are imported from [RFC9334]: Attester, Evidence, 
+Endorsement, Reference value, Appraisal Policy, Relying Party, and 
+Verifier. Also imported are the time definitions time(VG), time(NS), 
+time(EG), time(ER), time(RG),time(RX), and time(OP) from that 
+document's Appendix A. 
+
+   New relevant Events over Time:
+   time(AG): the time at the event that the Attestation Results for 
+the same attester is aggregated. 
+
+# Handing Multiple Verifiers
 
 # Three  {#sec-three}
 
