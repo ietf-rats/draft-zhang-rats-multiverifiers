@@ -126,10 +126,10 @@ To trick a Relying Party into putting unjustified trust in the Attester, an Atte
          .---+--------.              .-------------. Compare
          |            +------------>X|             | Attestation
          |  Attester  | Attestation  |   Relying   | Result against
-         |            | Result       |    Party    | appraisal 
+         |            | Result       |    Party    | appraisal
          '------------'              '-------------' policy
 
-   Figure 1: Passport Model with Verifier A not trusted by Relying 
+   Figure 1: Passport Model with Verifier A not trusted by Relying
 Party.
 
          .-------------.
@@ -144,13 +144,13 @@ Party.
          .---+--------.              .-------------. Compare
          |            +------------->|             | Attestation
          |  Attester  | Attestation  |   Relying   | Result against
-         |            | Result A     |    Party    | appraisal 
+         |            | Result A     |    Party    | appraisal
          '---+--------'              '-------------' policy
              |    ^
     Evidence |    | Attestation
              |    | Result B (negative)
-             |    | 
-             V    | 
+             |    |
+             V    |
          .--------+----.
          |             | Compare Evidence
          |  Verifier B | against appraisal policy
@@ -160,30 +160,30 @@ Party.
    Figure 2: Passport Model with cheating Attester
 
 ## Background-check Model
-   Under the Background-check Model, an Attester sends Evidence to a 
-Verifier via a Relaying Party, and the Verifier generates the 
-Attestation Results and sends them back to the Relying Party. 
+   Under the Background-check Model, an Attester sends Evidence to a
+Verifier via a Relaying Party, and the Verifier generates the
+Attestation Results and sends them back to the Relying Party.
 
-   Fig. 3 and 4 show scenarios where multiple heterogeneous Verifiers 
-introduce potential issues in a Background-check Model.  
+   Fig. 3 and 4 show scenarios where multiple heterogeneous Verifiers
+introduce potential issues in a Background-check Model.
 
-   In Fig. 3, even if a Verifier is trusted by a Relying Party, 
-there is no assurance that it is working as intended and only does what 
-it is supposed to do and nothing else. If multiple Verifiers exist, 
-neither Evidence might reach all Verifiers nor all Attestation Results 
-might reach the Relying Party due to failing conveyance mechanisms, or 
+   In Fig. 3, even if a Verifier is trusted by a Relying Party,
+there is no assurance that it is working as intended and only does what
+it is supposed to do and nothing else. If multiple Verifiers exist,
+neither Evidence might reach all Verifiers nor all Attestation Results
+might reach the Relying Party due to failing conveyance mechanisms, or
 due to the Verifier itself being compromised or malfunctioning.,
-or hardware problems. 
+or hardware problems.
 
   In Fig. 4, a Relying Party is able to alternate between Verifiers.
-When these Verifiers are heterogeneous though, a Relying Party might 
+When these Verifiers are heterogeneous though, a Relying Party might
 receive different or conflicting Attestation Results from them, which
-means the trustworthy assessment of the Attester can rely (and fail) 
+means the trustworthy assessment of the Attester can rely (and fail)
 on a specific selection of Verifiers made by at the Relying Party side.
 
                                     .-------------.
                                     |             | Compare Evidence
-                                    |   Verifier  | against 
+                                    |   Verifier  | against
                                     |             | appraisal
                                     |      x(2)   | policy
                                     '--------+----'
@@ -192,19 +192,19 @@ on a specific selection of Verifiers made by at the Relying Party side.
                                          x(1)| Result
                                          |   v
        .------------.               .----|--------.
-       |            +-------------->|---'         | Compare 
+       |            +-------------->|---'         | Compare
        |            |               |             | Attestation
        |  Attester  |   Evidence    |     Relying | Result against
        |            |               |      Party  | appraisal policy
        '------------'               '-------------'
 
-   Figure 3: A Background-Check Model where a Verifier is not available 
-because of 1) a Relying Party not being reachable by the Verifier, 2) 
+   Figure 3: A Background-Check Model where a Verifier is not available
+because of 1) a Relying Party not being reachable by the Verifier, 2)
 a malfunction of the Verifier.
 
                                     .-------------.
                                     |             | Compare Evidence
-                                    |   Verifier  | against 
+                                    |   Verifier  | against
                                     |      A      | appraisal
                                     '--------+----' policy
                                          ^   |
@@ -212,7 +212,7 @@ a malfunction of the Verifier.
                                          |   | Result (positive)
                                          |   v
        .------------.               .----|--------. Compare
-       |            +-------------->|---'         | Attestation 
+       |            +-------------->|---'         | Attestation
        |  Attester  |   Evidence    |     Relying | Result against
        |            |               |      Party  | appraisal policy
        '------------'               '----+--------'
@@ -222,7 +222,7 @@ a malfunction of the Verifier.
                                          v   |
                                     .--------+----.
                                     |             | Compare Evidence
-                                    |   Verifier  | against 
+                                    |   Verifier  | against
                                     |      B      | appraisal
                                     '-------------' policy
 
@@ -231,49 +231,49 @@ Results originating from multiple Verifiers.
 
 # Terminology
 
-   The following terms are imported from [RFC9334]: Attester, Evidence, 
-Endorsement, Reference value, Appraisal Policy, Relying Party, and 
-Verifier. Also imported are the time definitions time(VG), time(NS), 
-time(EG), time(ER), time(RG),time(RX), and time(OP) from that 
-document's Appendix A. 
+   The following terms are imported from [RFC9334]: Attester, Evidence,
+Endorsement, Reference value, Appraisal Policy, Relying Party, and
+Verifier. Also imported are the time definitions time(VG), time(NS),
+time(EG), time(ER), time(RG),time(RX), and time(OP) from that
+document's Appendix A.
 
    New relevant Events over Time:
-   time(AG): the time at the event that the Attestation Results for 
-the same attester is aggregated. 
+   time(AG): the time at the event that the Attestation Results for
+the same attester is aggregated.
 
 # Handing Multiple Verifiers
 
-In this section, we follow the attestation data-flow based on the 
-Background-Check Model, to support robust aggregation of the 
+In this section, we follow the attestation data-flow based on the
+Background-Check Model, to support robust aggregation of the
 Attestation Results in an environment with heterogeneous verifiers.
 
 ## Aggregation of Attestation Results from Multiple Verifiers
 
-Fig. 5 below is a sequence diagram which updates Fig. 14 in 
-[RFC9334] to support the aggregation of Attestation Results from 
-multiple Verifiers in a Background-check Model. The nonce is 
-generated by the Relying Party, in place of each Verifier, so as to 
-reduce the amount of Evidence generated. The aggregation method 
-implemented by the Relying Party is out of scope of this draft. For 
+Fig. 5 below is a sequence diagram which updates Fig. 14 in
+[RFC9334] to support the aggregation of Attestation Results from
+multiple Verifiers in a Background-check Model. The nonce is
+generated by the Relying Party, in place of each Verifier, so as to
+reduce the amount of Evidence generated. The aggregation method
+implemented by the Relying Party is out of scope of this draft. For
 example, the majority vote could be viewed as a possible solution.
 
-.---------.    .--------. .--------.    .--------.          .---. 
+.---------.    .--------. .--------.    .--------.          .---.
  | Attester|    |Verifier| |Verifier|    |Verifier|          | RP|
- |         |    |    1   | |   2    |    |    k   |          |   | 
+ |         |    |    1   | |   2    |    |    k   |          |   |
  '---------'    '--------' '--------'    '--------'           '---'
      |              |         |             |                  |
   Time(VG_a)        ~         ~             ~                  ~
-     |              |         |             |                  | 
+     |              |         |             |                  |
      |<----Nonce---------------------------------------time(NS_r)
-  Time(EG_a)        |         |             |                  |  
-     |              |         |             |                  |  
+  Time(EG_a)        |         |             |                  |
+     |              |         |             |                  |
      |-----Evidence{Nonce}------------------------------------>|
      |              |                                time(ER_r_1)
      |              |<-----Evidence{Nonce}---------------------|
      |              |         |            |         time(ER_r_2)
      |       time(RG_v_1)     |<-Evidence{Nonce}---------------|
      |              |  time(RG_v_2)        |         time(ER_r_k)
-     |              |         |            |<-Evidence{Nonce}--| 
+     |              |         |            |<-Evidence{Nonce}--|
      |              |         |       time(RG_v_k)             |
      |              |--Attestation Result--------------------->|
      |              | {time(RX_v_1)-time(RG_v_1)}              |
@@ -282,29 +282,29 @@ example, the majority vote could be viewed as a possible solution.
      |              |         |             |--------AR------->|
      |              |         | {time(RX_v_k)-time(RG_v_k)}    |
      |              |         |             |         time(AG_r)
-     |              |         |             |         time(OP_r) 
+     |              |         |             |         time(OP_r)
 
- Figure 5: Background-Check Model with the support of the aggregation 
+ Figure 5: Background-Check Model with the support of the aggregation
 of Attestation Results from multiple Verifiers.
 
 ## Verifier Manager
 
-Manually configuring the Verifiers in each Relying Party is not well 
-adapted to the changing of the network environment. As there is no 
-guarantee of the availability and consolidation of these Verifiers 
-in the long term. We introduce a new entity in RATS architecture, 
-which is the Verifier manager, to address these issues. As shown in 
-Fig. 6, after configuring the anchor seed Verifiers in the Relying 
-Party, which is typically a small set of trusted Verifiers by the 
-Relying Party. The Relying Party can communicate with the Verifier 
-manager with this list of Verifiers, in together with certain 
-parameters n, for example, the number of Verifiers that it expects 
-to collect Attestation Results from. The Verifier manager matches 
-this list with its local database of the groups of Verifiers, find 
-the groups of Vherifiers that behave most close to the majority of 
-the Verifiers in this list, and picks n Verifiers out of it. Then 
-the Verifier manager sends these n Verifiers back to the Relying 
-Party, as its recommended Verifiers. In such a way, each Relying 
+Manually configuring the Verifiers in each Relying Party is not well
+adapted to the changing of the network environment. As there is no
+guarantee of the availability and consolidation of these Verifiers
+in the long term. We introduce a new entity in RATS architecture,
+which is the Verifier manager, to address these issues. As shown in
+Fig. 6, after configuring the anchor seed Verifiers in the Relying
+Party, which is typically a small set of trusted Verifiers by the
+Relying Party. The Relying Party can communicate with the Verifier
+manager with this list of Verifiers, in together with certain
+parameters n, for example, the number of Verifiers that it expects
+to collect Attestation Results from. The Verifier manager matches
+this list with its local database of the groups of Verifiers, find
+the groups of Vherifiers that behave most close to the majority of
+the Verifiers in this list, and picks n Verifiers out of it. Then
+the Verifier manager sends these n Verifiers back to the Relying
+Party, as its recommended Verifiers. In such a way, each Relying
 Party can flexibly configure its policy for the trusted Verifier.
 
  .---------.   .---------.       .--------.       .-------------.
@@ -331,46 +331,46 @@ Party can flexibly configure its policy for the trusted Verifier.
 | Attester |                                | Relying Party |
 '----------'                                '---------------'
                                                |       ^
-                        Anchor seed Verifiers, |       | Recommended 
-                        parameter              |       | Verifiers 
+                        Anchor seed Verifiers, |       | Recommended
+                        parameter              |       | Verifiers
                                                |       |
                                            .------------------.
                                            | Verifier Manager |
-                                           '------------------'   
+                                           '------------------'
 
                           Figure 6: Revised Data Flow based RFC9334
 
 # Use cases
 
- This Section illustrates some use cases that can benefit from an 
+ This Section illustrates some use cases that can benefit from an
 architecture that takes multiple Verifiers into account.
 
-   Use case 1: Intent-driven Attestation Classification for Data Center 
+   Use case 1: Intent-driven Attestation Classification for Data Center
 Network Solutions
-   Need: Establishment of trust in a complex data center environment 
-comprising multiple VMs instantiated on heterogeneous CPU 
+   Need: Establishment of trust in a complex data center environment
+comprising multiple VMs instantiated on heterogeneous CPU
 architectures
-   Solution: Attestation Verification Service based on a harmonized set 
+   Solution: Attestation Verification Service based on a harmonized set
 of components to be leveraged by multiple Verifiers
-   Source: TCG Trusted Application Protocol (TAP) Use Cases [TAP] 
-   
+   Source: TCG Trusted Application Protocol (TAP) Use Cases [TAP]
+
    Use case 2: Enhancing TEE Device Interface Security Protocol (TDISP)
-   Need: Enhance Trusted Execution Environment Provisioning (TEEP) 
-Architecture with TEE-I/O capabilities for the direct verification 
-assignment of specific system characteristics to targeted (remote) 
-Verifiers 
-   Solution: Harmonized Trusted Computing Base to Achieve Secure 
-interfaces and Key Management with Multiple Verifiers attesting 
+   Need: Enhance Trusted Execution Environment Provisioning (TEEP)
+Architecture with TEE-I/O capabilities for the direct verification
+assignment of specific system characteristics to targeted (remote)
+Verifiers
+   Solution: Harmonized Trusted Computing Base to Achieve Secure
+interfaces and Key Management with Multiple Verifiers attesting
 different device properties
    Source: [RFC9397] on TEEP Architecture  	
 
-   Use case 3: Intra- and Inter-Domain Trusted Path Routing 
-   Need: Trustworthiness Assessment of routing nodes (Attesters) 
-against multiple Verifiers (Control Plane Orchestrators) residing in 
+   Use case 3: Intra- and Inter-Domain Trusted Path Routing
+   Need: Trustworthiness Assessment of routing nodes (Attesters)
+against multiple Verifiers (Control Plane Orchestrators) residing in
 different network administrative domain
-   Solution: Verification of multiple attestation formats supporting 
+   Solution: Verification of multiple attestation formats supporting
 reference integrity manifest with constrained disclosure
-   Source:  Trusted Path Routine  [I-D.voit-rats-trustworthy-path-routing], 
+   Source:  Trusted Path Routine  [I-D.voit-rats-trustworthy-path-routing],
 network attestation for secure routing [I-D.liu-nasr-requirements]
 
    Use case 4: network endpoint assessment
@@ -378,7 +378,7 @@ network attestation for secure routing [I-D.liu-nasr-requirements]
    Source: use case from [RFC9334]
 
    Use case 5: Confidential Data Protection
-   Need: avoid single Verifier corruption, which leads to the leakage 
+   Need: avoid single Verifier corruption, which leads to the leakage
 of data privacy.
    Source: use case from [RFC9334]
 
@@ -395,8 +395,8 @@ of data privacy.
               Architecture", RFC 9334, DOI 10.17487/RFC9334, January
               2023, <https://www.rfc-editor.org/rfc/rfc9334>.
 
-[I-D.voit-rats-trustworthy-path-routing] Voit, E., Gaddam, C. R., 
-Fedorkow, G., Birkholz, H., and M. Chen, "Trusted Path 
+[I-D.voit-rats-trustworthy-path-routing] Voit, E., Gaddam, C. R.,
+Fedorkow, G., Birkholz, H., and M. Chen, "Trusted Path
 Routing", Work in Progress,
           Internet-Draft, draft-voit-rats-trustworthy-path-routing-
 09, 22 February 2024,
@@ -405,22 +405,22 @@ rats-trustworthy-path-routing-09>.
 
 ## Informative References
 
-[RFC9397] Pei, M., Tschofenig, H., Thaler, D., and D. Wheeler, 
-"Trusted Execution Environment Provisioning (TEEP) 
-Architecture", RFC 9397, DOI 10.17487/RFC9397, July 2023, 
+[RFC9397] Pei, M., Tschofenig, H., Thaler, D., and D. Wheeler,
+"Trusted Execution Environment Provisioning (TEEP)
+Architecture", RFC 9397, DOI 10.17487/RFC9397, July 2023,
 <https://www.rfc-editor.org/info/rfc9397>.
 
-[I-D.liu-nasr-requirements] Liu, P. C., "NASR Use Case and 
+[I-D.liu-nasr-requirements] Liu, P. C., "NASR Use Case and
 Requirements", Work in Progress, Internet-Draft, draft-
-liu-nasr-requirements-01, 8 February 2024, 
+liu-nasr-requirements-01, 8 February 2024,
 <https://datatracker.ietf.org/doc/html/draft-
 liu-nasr-requirements-01>.
- 
+
 [TAP] Trusted Computing Group, "TCG Trusted Attestation Protocol (TAP) Use Cases
 for TPM Families 1.2 and 2.0 and DICE", Nov. 2019,
          <https://trustedcomputinggroup.org/wp-content/uploads/
          TCG_TNC_TAP_Use_Cases_v1r0p35_published.pdf)>.
-         
+
 # Three  {#sec-three}
 
 RFC 3161 {{-TSA}} provides a method to timestamp a message digest to prove that it was created before a given time.
