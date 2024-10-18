@@ -316,38 +316,38 @@ incidence and the verifier manager will reduce the reputation
 of these verifiers, and reduce the probability to recommend these
 verifiers to relying parties. So in the long run, the misbehaved
 verifiers will be punished. 
-```
- .---------.   .----------.     .----------.     .--------------.
- | Endorser|  | Reference |     | Verifier |     | Relying Party|
- '+--------'  | Value     |     | Owner    |     | Owner        |
-  |           | Provider  |     '----+-----'     '-----+--------'
-  |           '------+----'          |                 |
-  |                  |               |                 |
-  | Endorsements     | Reference     | Appraisal       | Appraisal
-  |                  | Values        | Policy for      | Policy for
-  |                  |               | Evidence        | Attestation
-  '-----------.      |               |                 | Results
-                |    |               |                 |
-                v    v               v                 |
-              .-------------------------.              |
-      .------>|         Verifier        +------.       |
-     |        '-------------------------'      |       |
-     |                                         |       |
-     | Evidence                    Attestation |       |
-     |                             Results     |       |
-     |                                         |       |
-     |                                         v       v
-.-----+----.                                .---------------.
-| Attester |                                | Relying Party |
-'----------'                                '---------------'
-                                               |       ^
-                        Anchor seed Verifiers, |       | Recommended
-                        parameter              |       | Verifiers
-                                               |       |
-                                           .------------------.
-                                           | Verifier Manager |
-                                           '------------------'
-```
+
+    .---------.   .----------.     .----------.     .--------------.
+    | Endorser|  | Reference |     | Verifier |     | Relying Party|
+    '+--------'  | Value     |     | Owner    |     | Owner        |
+     |           | Provider  |     '----+-----'     '-----+--------'
+     |           '------+----'          |                 |
+     |                  |               |                 |
+     | Endorsements     | Reference     | Appraisal       | Appraisal
+     |                  | Values        | Policy for      | Policy for
+     |                  |               | Evidence        | Attestation
+     '-----------.      |               |                 | Results
+                   |    |               |                 |
+                   v    v               v                 |
+                 .-------------------------.              |
+         .------>|         Verifier        +------.       |
+        |        '-------------------------'      |       |
+        |                                         |       |
+        | Evidence                    Attestation |       |
+        |                             Results     |       |
+        |                                         |       |
+        |                                         v       v
+   .-----+----.                                .---------------.
+   | Attester |                                | Relying Party |
+   '----------'                                '---------------'
+                                                   |       ^
+                            Anchor seed Verifiers, |       | Recommended
+                            parameter              |       | Verifiers
+                                                   |       |
+                                               .------------------.
+                                               | Verifier Manager |
+                                               '------------------'
+
                           Figure 6: Revised Data Flow based RFC9334
 
 # Use cases
