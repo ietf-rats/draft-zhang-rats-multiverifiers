@@ -242,7 +242,7 @@ document's Appendix A.
    time(AG): the time at the event that the Attestation Results for
 the same attester is aggregated.
 
-# Handing Multiple Verifiers
+# Handing Multiple Verifiers {#sec-three}
 
 In this section, we follow the attestation data-flow based on the
 Background-Check Model, to support robust aggregation of the
