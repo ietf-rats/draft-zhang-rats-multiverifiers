@@ -33,6 +33,7 @@ author:
   country: Singapore
 - name: Thanassis Giannetsos
   org: UBITECH Ltd.
+  email: agiannetsos@ubitech.eu
   street: Thessalias 8 and Etolias 10
   code: 'GR-15231'
   city: Chalandri,
