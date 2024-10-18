@@ -431,8 +431,5 @@ for TPM Families 1.2 and 2.0 and DICE", Nov. 2019,
          <https://trustedcomputinggroup.org/wp-content/uploads/
          TCG_TNC_TAP_Use_Cases_v1r0p35_published.pdf)>.
 
-## Requirements Notation
-
-{::boilerplate bcp14-tagged}
 
 
