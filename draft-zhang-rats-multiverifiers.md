@@ -48,15 +48,12 @@ author:
   country: Germany
 
 normative:
-  STD70:
-    =: RFC5652
-    -: CMS
-  RFC3161: TSA
-  STD96:
-    =: RFC9052
-    -: COSE
+  RFC9334: RATS-ARCH
+  I-D.voit-rats-trustworthy-path-routing: I-D.voit-rats-trustworthy-path-routing
 
 informative:
+  RFC9397: 10.17487/RFC9397
+  I-D.liu-nasr-requirements: I-D.liu-nasr-requirements
   RFC9334: RATS-ARCH
 
 entity:
