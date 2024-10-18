@@ -54,7 +54,13 @@ normative:
 informative:
   RFC9397: 10.17487/RFC9397
   I-D.liu-nasr-requirements: I-D.liu-nasr-requirements
-  RFC9334: RATS-ARCH
+  TAP:
+    author:
+      org: Trusted Computing Group
+    title: TCG Trusted Attestation Protocol (TAP) Use Cases for TPM Families 1.2 and 2.0 and DICE
+    date: 2019-11-05
+    target: https://trustedcomputinggroup.org/wp-content/uploads/TCG_TNC_TAP_Use_Cases_v1r0p35_published.pdf
+    seriesinfo: 1.0
 
 entity:
   SELF: "RFCthis"
@@ -408,38 +414,6 @@ of data privacy.
 # IANA Considerations
   [TBD]
 
-# References
-## Normative References
-[RFC9334] Birkholz, H., Thaler, D., Richardson, M., Smith, N., and
-              W. Pan, "Remote ATtestation procedureS (RATS)
-              Architecture", RFC 9334, DOI 10.17487/RFC9334, January
-              2023, <https://www.rfc-editor.org/rfc/rfc9334>.
-
-[I-D.voit-rats-trustworthy-path-routing] Voit, E., Gaddam, C. R.,
-Fedorkow, G., Birkholz, H., and M. Chen, "Trusted Path
-Routing", Work in Progress,
-          Internet-Draft, draft-voit-rats-trustworthy-path-routing-
-09, 22 February 2024,
-              <https://datatracker.ietf.org/doc/html/draft-voit-
-rats-trustworthy-path-routing-09>.
-
-## Informative References
-
-[RFC9397] Pei, M., Tschofenig, H., Thaler, D., and D. Wheeler,
-"Trusted Execution Environment Provisioning (TEEP)
-Architecture", RFC 9397, DOI 10.17487/RFC9397, July 2023,
-<https://www.rfc-editor.org/info/rfc9397>.
-
-[I-D.liu-nasr-requirements] Liu, P. C., "NASR Use Case and
-Requirements", Work in Progress, Internet-Draft, draft-
-liu-nasr-requirements-01, 8 February 2024,
-<https://datatracker.ietf.org/doc/html/draft-
-liu-nasr-requirements-01>.
-
-[TAP] Trusted Computing Group, "TCG Trusted Attestation Protocol (TAP) Use Cases
-for TPM Families 1.2 and 2.0 and DICE", Nov. 2019,
-         <https://trustedcomputinggroup.org/wp-content/uploads/
-         TCG_TNC_TAP_Use_Cases_v1r0p35_published.pdf)>.
 
 
 
