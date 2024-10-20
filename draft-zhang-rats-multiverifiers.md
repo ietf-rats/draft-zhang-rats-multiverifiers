@@ -250,11 +250,15 @@ the same attester is aggregated.
 
 In this section, we follow the attestation data-flow based on the
 Background-Check Model, to support robust aggregation of the
-Attestation Results in an environment with heterogeneous Verifiers.
-Notice that, here heterogeneous means that the Verifiers may
-generate different Attestation Results.  
-The verifier manager is introduced into the attestation system 
-to help the Relying Party choosing verifiers that are expected 
+Attestation Results in an environment with many Verifiers that may
+be heterogeneous. 
+Here heterogeneous means that the Verifiers may
+generate different Attestation Results. 
+In terms of resilience, these Verifiers are not enabled to be replaced
+by a conceptual single (proxy) Verifier as this single Verifier may
+still has the availability issue.
+The Verifier Manager is introduced into the attestation system 
+to help the Relying Party choosing Verifiers that are expected 
 to follow the same standard, to avoid the aggregation of
 Attestation Results that following different standards. 
 
@@ -321,20 +325,20 @@ the Verifiers in this list, and picks n Verifiers out of it. Then
 the Verifier manager sends these n Verifiers back to the Relying
 Party, as its recommended Verifiers. In such a way, each Relying
 Party can flexibly configure its policy for the trusted Verifier.
-Notice that, the verifiers in the same group are expected to follow
+Notice that, the Verifiers in the same group are expected to follow
 the same golden measurement, that is, they are expected to generate
-the same attestation results when they receive the same evidences. 
-The example are the verifiers that are deployed by the same
+the same Attestation Results when they receive the same Evidences. 
+The example are the Verifiers that are deployed by the same
 company or the alliance following the same standard. Here
-the same for evidences and attestation results are
+the same for Evidences and Attestation Results are
 in the sense of semantic, that is, they can be wrapped
 in different formats, cwt or jwt for example, but the
-content itself are the same. When a relying party receives 
-certain minority attesation results from certain verifiers, 
-it can inform the verifier manager this incidence and the verifier
+content itself are the same. When a Relying Party receives 
+certain minority attesation results from certain Verifiers, 
+it can inform the Verifier Manager this incidence and the verifier
 manager will reduce the reputation of these verifiers, and reduce 
-the probability to recommend these verifiers to relying parties. 
-So in the long run, the misbehaved verifiers will be punished. 
+the probability to recommend these Verifiers to relying parties. 
+So in the long run, the misbehaved Verifiers will be punished. 
 
     .---------.   .----------.     .----------.     .--------------.
     | Endorser|  | Reference |     | Verifier |     | Relying Party|
@@ -381,7 +385,10 @@ Network Solutions
 comprising multiple VMs instantiated on heterogeneous CPU
 architectures \
    Solution: Attestation Verification Service based on a harmonized set
-of components to be leveraged by multiple Verifiers\
+of components to be leveraged by multiple Verifiers. The Evidence
+from the attester is only needed to be generated once for each
+attestation process, and the Evidence is forwarded between Verifiers to
+reach the consensus of the trustworthy judgement of the Attester.\
    Source: TCG Trusted Application Protocol (TAP) Use Cases [TAP]
 
    Use case 2: Enhancing TEE Device Interface Security Protocol (TDISP)
@@ -400,7 +407,8 @@ different device properties \
 against multiple Verifiers (Control Plane Orchestrators) residing in
 different network administrative domain \
    Solution: Verification of multiple attestation formats supporting
-reference integrity manifest with constrained disclosure \
+reference integrity manifest with constrained disclosure and resilience
+to the failure of certain Verifiers.\
    Source:  Trusted Path Routine  [I-D.voit-rats-trustworthy-path-routing],
 network attestation for secure routing [I-D.liu-nasr-requirements]
 
