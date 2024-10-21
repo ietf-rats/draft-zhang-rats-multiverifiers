@@ -163,7 +163,7 @@ Party.
 
    Figure 2: Passport Model with cheating Attester
 
-## Background-check Model cases
+## Background-check Model Cases
    Under the Background-check Model, an Attester sends Evidence to a
 Verifier via a Relaying Party, and the Verifier generates the
 Attestation Results and sends them back to the Relying Party.
@@ -241,7 +241,7 @@ Verifier. Also imported are the time definitions time(VG), time(NS),
 time(EG), time(ER), time(RG),time(RX), and time(OP) from that
 document's Appendix A.
 
-   New relevant Events over Time:
+   New relevant Events over Time:\
    time(AG): the time at the event that the Attestation Results for
 the same attester is aggregated.
 
@@ -371,9 +371,9 @@ So in the long run, the misbehaved Verifiers will be punished.
                                                 | Verifier Manager |
                                                 '------------------'
 
-                          Figure 6: Revised Data Flow based RFC9334
+                      Figure 6: Revised Data Flow based RFC9334
 
-# Use cases
+# Use Cases
 
  This Section illustrates some use cases that can benefit from an
 architecture that takes multiple Verifiers into account.
@@ -383,12 +383,12 @@ Network Solutions
 
    Need: Establishment of trust in a complex data center environment
 comprising multiple VMs instantiated on heterogeneous CPU
-architectures \
+architectures  
    Solution: Attestation Verification Service based on a harmonized set
 of components to be leveraged by multiple Verifiers. The Evidence
 from the attester is only needed to be generated once for each
 attestation process, and the Evidence is forwarded between Verifiers to
-reach the consensus of the trustworthy judgement of the Attester.\
+reach the consensus of the trustworthy judgement of the Attester.  
    Source: TCG Trusted Application Protocol (TAP) Use Cases [TAP]
 
    Use case 2: Enhancing TEE Device Interface Security Protocol (TDISP)
@@ -396,29 +396,29 @@ reach the consensus of the trustworthy judgement of the Attester.\
    Need: Enhance Trusted Execution Environment Provisioning (TEEP)
 Architecture with TEE-I/O capabilities for the direct verification
 assignment of specific system characteristics to targeted (remote)
-Verifiers \
+Verifiers  
    Solution: Harmonized Trusted Computing Base to Achieve Secure
 interfaces and Key Management with Multiple Verifiers attesting
-different device properties \
+different device properties  
    Source: [RFC9397] on TEEP Architecture  	
 
    Use case 3: Intra- and Inter-Domain Trusted Path Routing
    Need: Trustworthiness Assessment of routing nodes (Attesters)
 against multiple Verifiers (Control Plane Orchestrators) residing in
-different network administrative domain \
+different network administrative domain  
    Solution: Verification of multiple attestation formats supporting
 reference integrity manifest with constrained disclosure and resilience
-to the failure of certain Verifiers.\
+to the failure of certain Verifiers.  
    Source:  Trusted Path Routine  [I-D.voit-rats-trustworthy-path-routing],
 network attestation for secure routing [I-D.liu-nasr-requirements]
 
-   Use case 4: network endpoint assessment \
-   Need: provide resilience in the attestation service \
+   Use case 4: network endpoint assessment  
+   Need: provide resilience in the attestation service  
    Source: use case from [RFC9334]
 
-   Use case 5: Confidential Data Protection \
+   Use case 5: Confidential Data Protection  
    Need: avoid single Verifier corruption, which leads to the leakage
-of data privacy. \
+of data privacy.  
    Source: use case from [RFC9334]
 
 # Security Consideration
