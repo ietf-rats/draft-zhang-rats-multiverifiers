@@ -384,11 +384,13 @@ Network Solutions
    Need: Establishment of trust in a complex data center environment
 comprising multiple VMs instantiated on heterogeneous CPU
 architectures  
+
    Solution: Attestation Verification Service based on a harmonized set
 of components to be leveraged by multiple Verifiers. The Evidence
 from the attester is only needed to be generated once for each
 attestation process, and the Evidence is forwarded between Verifiers to
 reach the consensus of the trustworthy judgement of the Attester.  
+
    Source: TCG Trusted Application Protocol (TAP) Use Cases [TAP]
 
    Use case 2: Enhancing TEE Device Interface Security Protocol (TDISP)
@@ -397,23 +399,30 @@ reach the consensus of the trustworthy judgement of the Attester.
 Architecture with TEE-I/O capabilities for the direct verification
 assignment of specific system characteristics to targeted (remote)
 Verifiers  
+
    Solution: Harmonized Trusted Computing Base to Achieve Secure
 interfaces and Key Management with Multiple Verifiers attesting
 different device properties  
+
    Source: [RFC9397] on TEEP Architecture  	
 
-   Use case 3: Intra- and Inter-Domain Trusted Path Routing
+   Use case 3: Intra- and Inter-Domain Trusted Path Routing  
+   
    Need: Trustworthiness Assessment of routing nodes (Attesters)
 against multiple Verifiers (Control Plane Orchestrators) residing in
 different network administrative domain  
+
    Solution: Verification of multiple attestation formats supporting
 reference integrity manifest with constrained disclosure and resilience
 to the failure of certain Verifiers.  
+
    Source:  Trusted Path Routine  [I-D.voit-rats-trustworthy-path-routing],
 network attestation for secure routing [I-D.liu-nasr-requirements]
 
    Use case 4: network endpoint assessment  
+   
    Need: provide resilience in the attestation service  
+   
    Source: use case from [RFC9334]
 
    Use case 5: Confidential Data Protection  
