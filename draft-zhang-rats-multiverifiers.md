@@ -94,7 +94,7 @@ Some exemplary reasons include: a) RATS conceptual messages, such as
 Reference Values, Endorsements, Appraisal Policy for Evidence for
 different Verifiers, are not necessarily aligned, b) certain Verifiers
 can be compromised, or c) some Verifiers follow different Appraisal
-Policy for Evidence.
+Policies for Evidence.
 This lack of alignment can result in significant issues in both Passport Model and Background-check Model, which is detailed as follows.
 The Solution to address the problem of the lack of alignment is detailed in {{sec-three}}.
 
@@ -161,7 +161,7 @@ Party.
          |             |
          '-------------'
 
-   Figure 2: Passport Model with cheating Attester
+   Figure 2: Passport Model with a cheating Attester
 
 ## Background-check Model Cases
    Under the Background-check Model, an Attester sends Evidence to a
@@ -241,7 +241,8 @@ Verifier. Also imported are the time definitions time(VG), time(NS),
 time(EG), time(ER), time(RG),time(RX), and time(OP) from that
 document's Appendix A.
 
-   New relevant Events over Time:\
+   New relevant Events over Time:  
+   
    time(AG): the time at the event that the Attestation Results for
 the same attester is aggregated.
 
@@ -250,7 +251,7 @@ the same attester is aggregated.
 In this section, we show the data-flow to support robust aggregation
 of the Attestation Results in an in an environment with many Verifiers 
 that may be heterogeneous. Here heterogeneous means that the Verifiers 
-may generate different Attestation Results accordign to the same
+may generate different Attestation Results according to the same
 input of the Evidence.
 
 Below are the examples that the Relying Party needs multiple Verifiers.
@@ -329,41 +330,36 @@ of Attestation Results from multiple Verifiers.
 Manually configuring the Verifiers in each Relying Party is not well
 adapted to the changing of the network environment. As there is no
 guarantee of the availability and consolidation of these Verifiers
-in the long term. We introduce a new entity in RATS architecture,
+in the long term, we introduce a new entity in RATS architecture,
 which is the Verifier Manager, to address these issues. As shown in
 Fig. 6, after configuring the anchor seed Verifiers in the Relying
 Party, which is typically a small set of trusted Verifiers by the
 Relying Party. The Relying Party can communicate with the Verifier
 Manager with this list of Verifiers, in together with certain
-parameters n, for example, the number of Verifiers that it expects
-to collect Attestation Results from, when it expects Verifiers that
-follow the same standard, or a vector of numbers <n_1,n_2,...,n_k>
-that specifies the number of Verifiers that it needs for 
-each type of Verifiers listed in the anchor seed Verifiers. 
-The Verifier manager matches
+parameters. The Verifier manager matches
 this list with its local database of the groups of Verifiers, find
-Verifiers that matches the parameter n. Then
+Verifiers that matches the parameter. Then
 the Verifier Manager sends these Verifiers back to the Relying
-Party, as its recommended Verifiers. In such a way, each Relying
+Party, as its recommended Verifiers list. In such a way, each Relying
 Party can flexibly configure its policy for the trusted Verifier, 
 without knowing the detail of every Verifier. 
-The Verifiers in the same group are expected to follow
+At the Verifier Manager side, the Verifiers in the same group are expected to follow
 the same golden measurement, that is, they are expected to generate
 the same Attestation Results when they receive the same Evidences. 
 The example are the Verifiers that are deployed by the same
 company or the alliance.
 Here the same for Evidences and Attestation Results are
 in the sense of semantic, that is, they can be wrapped
-in different formats, cwt or jwt for example, but the
-content itself are the same. 
+in different formats, CWT or JWT for example, but the
+content itself is the same. 
 When a Relying Party receives 
 certain minority attesation results from certain Verifiers, 
-it can inform the Verifier Manager this incidence and the verifier
+it can inform the Verifier Manager this incidence, and the Verifier
 Manager will reduce the reputation of these verifiers, and reduce 
 the probability to recommend these Verifiers to Relying Parties. 
 So in the long run, the misbehaved Verifiers will be punished.
-The detail reputation management scheme for Verifiers are out of
-scope of this draft. 
+The details on the  reputation management scheme for Verifiers
+are out of scope of this draft. 
 
     .---------.   .----------.     .----------.     .--------------.
     | Endorser|  | Reference |     | Verifier |     | Relying Party|
@@ -396,78 +392,54 @@ scope of this draft.
                                                | Verifier Manager |
                                                '------------------'
 
-                      Figure 6: Revised Data Flow based RFC9334
+                      Figure 6: Revised Data Flow based on RFC9334
 
 # Use Cases
 
  This Section illustrates some use cases that can benefit from an
 architecture that takes multiple Verifiers into account.
 
+   Use case 1: Node Attestation for Trusted Routing
+  
+   Need: Trustworthiness Assessment of routing nodes (Attesters)
+against Verifier while ensuring the robustiness of the attestation
+verification service (AVS)
+
+   Solution: Provide multiple Verifiers (primary and secondaries) 
+to ensure the availability of the AVS 
+for nodes in the network
+  
+   Source:  Trusted Path Routine  [I-D.voit-rats-trustworthy-path-routing],
+network attestation for secure routing [I-D.liu-nasr-requirements] 
+
    Use case 1: Intent-driven Attestation Classification for Data Center
 Network Solutions
 
-   Need: In Data Centers,  Data Processing Units (DPU) need to attester 
+   Need: In Data Centers,  Data Processing Units (DPU) need to attest 
    other units (DPUs, CPUs, GPUs) to determine their states. There might
    be hundreds of Verifiers (DPUs) for one Attester (DPU/CPU/GPU). At the
    Attester side, to
    generate indididually one Evidence for each Verifier could be prohibitive. 
 
-   Solution: The Attester contacts the Verifier Manager to inform it
-   the Verifiers that need its Evidence. The Verifier Manager groups
-   all these Verifiers into the same group. Each Verifier
-   contacts the Verifier Manager as a Relying Party to know
-   other Verifiers that are interested in the same Attester.  
-   One of these Verifiers works as
-   the Relying Party for the Attester, and sends the attestation
-   request to the Attester. The Evidence from the Attester is only 
-   generated once and sent to this Verifier. This Verifier forwards
+   Solution: One Verifier works as the Relying Party to contact
+   the Attester, and marks other Verifiers that need to 
+   attest this Attester in the same interesting group. 
+   sends the attestation request to the Attester. The Evidence from the Attester 
+   is only generated once and sent to this Verifier. This Verifier forwards
    the Evidence to other Verifiers that in the same interesting group
    and obtain the Attestation Results from them. It generates the
    Aggregated Attestation Results and shares it within the Verifiers
    in the same interesting group. In this manner, the Attester does not
    need to generate the Evidence for every Verifier, and the attestation
-   procedure works even when certain Verifier does not work. 
-
-   Source: TCG Trusted Application Protocol (TAP) Use Cases [TAP]
-
-   Use case 2: Enhancing TEE Device Interface Security Protocol (TDISP)
+   procedure works even when certain Verifier does not work.
    
-   Need: Enhance Trusted Execution Environment Provisioning (TEEP)
-Architecture with TEE-I/O capabilities for the direct verification
-assignment of specific system characteristics to targeted (remote)
-Verifiers  
-
-   Solution: Harmonized Trusted Computing Base to Achieve Secure
-interfaces and Key Management with Multiple Verifiers attesting
-different device properties  
-
-   Source: [RFC9397] on TEEP Architecture  	
-
-   Use case 3: Intra- and Inter-Domain Trusted Path Routing  
    
-   Need: Trustworthiness Assessment of routing nodes (Attesters)
-against multiple Verifiers (Control Plane Orchestrators) residing in
-different network administrative domain  
 
-   Solution: Verification of multiple attestation formats supporting
-reference integrity manifest with constrained disclosure and resilience
-to the failure of certain Verifiers.  
+    	
 
-   Source:  Trusted Path Routine  [I-D.voit-rats-trustworthy-path-routing],
-network attestation for secure routing [I-D.liu-nasr-requirements]  
+ 
 
-   Use case 4: network endpoint assessment  
-   
-   Need: provide resilience in the attestation service  
-   
-   Source: use case from [RFC9334]  
-
-   Use case 5: Confidential Data Protection  
-   
-   Need: avoid single Verifier corruption, which leads to the leakage
-of data privacy.  
-
-   Source: use case from [RFC9334]
+  
 
 # Security Consideration
   [TBD]
