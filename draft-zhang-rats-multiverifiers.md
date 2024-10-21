@@ -426,8 +426,10 @@ network attestation for secure routing [I-D.liu-nasr-requirements]
    Source: use case from [RFC9334]  
 
    Use case 5: Confidential Data Protection  
+   
    Need: avoid single Verifier corruption, which leads to the leakage
 of data privacy.  
+
    Source: use case from [RFC9334]
 
 # Security Consideration
