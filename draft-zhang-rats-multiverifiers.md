@@ -330,25 +330,28 @@ Manually configuring the Verifiers in each Relying Party is not well
 adapted to the changing of the network environment. As there is no
 guarantee of the availability and consolidation of these Verifiers
 in the long term. We introduce a new entity in RATS architecture,
-which is the Verifier manager, to address these issues. As shown in
+which is the Verifier Manager, to address these issues. As shown in
 Fig. 6, after configuring the anchor seed Verifiers in the Relying
 Party, which is typically a small set of trusted Verifiers by the
 Relying Party. The Relying Party can communicate with the Verifier
-manager with this list of Verifiers, in together with certain
+Manager with this list of Verifiers, in together with certain
 parameters n, for example, the number of Verifiers that it expects
-to collect Attestation Results from. The Verifier manager matches
+to collect Attestation Results from, when it expects Verifiers that
+follow the same standard, or a vector of numbers <n_1,n_2,...,n_k>
+that specifies the number of Verifiers that it needs for 
+each type of Verifiers listed in the anchor seed Verifiers. 
+The Verifier manager matches
 this list with its local database of the groups of Verifiers, find
-the groups of Verifiers that behave most close to the majority of
-the Verifiers in this list, and picks n Verifiers out of it. Then
-the Verifier manager sends these n Verifiers back to the Relying
+Verifiers that matches the parameter n. Then
+the Verifier Manager sends these Verifiers back to the Relying
 Party, as its recommended Verifiers. In such a way, each Relying
-Party can flexibly configure its policy for the trusted Verifier.
-The Verifiers in the same group are either expected to follow
+Party can flexibly configure its policy for the trusted Verifier, 
+without knowing the detail of every Verifier. 
+The Verifiers in the same group are expected to follow
 the same golden measurement, that is, they are expected to generate
-the same Attestation Results when they receive the same Evidences
-(The example are the Verifiers that are deployed by the same
-company or the alliance), or the Attestation Results from them 
-can be aggregable.
+the same Attestation Results when they receive the same Evidences. 
+The example are the Verifiers that are deployed by the same
+company or the alliance.
 Here the same for Evidences and Attestation Results are
 in the sense of semantic, that is, they can be wrapped
 in different formats, cwt or jwt for example, but the
@@ -356,9 +359,11 @@ content itself are the same.
 When a Relying Party receives 
 certain minority attesation results from certain Verifiers, 
 it can inform the Verifier Manager this incidence and the verifier
-manager will reduce the reputation of these verifiers, and reduce 
-the probability to recommend these Verifiers to relying parties. 
-So in the long run, the misbehaved Verifiers will be punished. 
+Manager will reduce the reputation of these verifiers, and reduce 
+the probability to recommend these Verifiers to Relying Parties. 
+So in the long run, the misbehaved Verifiers will be punished.
+The detail reputation management scheme for Verifiers are out of
+scope of this draft. 
 
     .---------.   .----------.     .----------.     .--------------.
     | Endorser|  | Reference |     | Verifier |     | Relying Party|
