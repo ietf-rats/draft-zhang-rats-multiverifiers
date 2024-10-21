@@ -412,7 +412,7 @@ for nodes in the network
    Source:  Trusted Path Routine  [I-D.voit-rats-trustworthy-path-routing],
 network attestation for secure routing [I-D.liu-nasr-requirements] 
 
-   Use case 1: Intent-driven Attestation Classification for Data Center
+   Use case 2: Intent-driven Attestation Classification for Data Center
 Network Solutions
 
    Need: In Data Centers,  Data Processing Units (DPU) need to attest 
