@@ -417,13 +417,13 @@ reference integrity manifest with constrained disclosure and resilience
 to the failure of certain Verifiers.  
 
    Source:  Trusted Path Routine  [I-D.voit-rats-trustworthy-path-routing],
-network attestation for secure routing [I-D.liu-nasr-requirements]
+network attestation for secure routing [I-D.liu-nasr-requirements]  
 
    Use case 4: network endpoint assessment  
    
    Need: provide resilience in the attestation service  
    
-   Source: use case from [RFC9334]
+   Source: use case from [RFC9334]  
 
    Use case 5: Confidential Data Protection  
    Need: avoid single Verifier corruption, which leads to the leakage
