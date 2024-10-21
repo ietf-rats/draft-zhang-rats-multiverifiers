@@ -388,13 +388,13 @@ scope of this draft.
     .-----+----.                                .---------------.
     | Attester |                                | Relying Party |
     '----------'                                '---------------'
-                                                    |       ^
-                             Anchor seed Verifiers, |       | Recommended
-                             parameter              |       | Verifiers
-                                                    |       |
-                                                .------------------.
-                                                | Verifier Manager |
-                                                '------------------'
+                                                  |       ^
+                           Anchor seed Verifiers, |       | Recommended
+                           parameter              |       | Verifiers
+                                                  |       |
+                                               .------------------.
+                                               | Verifier Manager |
+                                               '------------------'
 
                       Figure 6: Revised Data Flow based RFC9334
 
@@ -406,15 +406,27 @@ architecture that takes multiple Verifiers into account.
    Use case 1: Intent-driven Attestation Classification for Data Center
 Network Solutions
 
-   Need: Establishment of trust in a complex data center environment
-comprising multiple VMs instantiated on heterogeneous CPU
-architectures  
+   Need: In Data Centers,  Data Processing Units (DPU) need to attester 
+   other units (DPUs, CPUs, GPUs) to determine their states. There might
+   be hundreds of Verifiers (DPUs) for one Attester (DPU/CPU/GPU). At the
+   Attester side, to
+   generate indididually one Evidence for each Verifier could be prohibitive. 
 
-   Solution: Attestation Verification Service based on a harmonized set
-of components to be leveraged by multiple Verifiers. The Evidence
-from the attester is only needed to be generated once for each
-attestation process, and the Evidence is forwarded between Verifiers to
-reach the consensus of the trustworthy judgement of the Attester.  
+   Solution: The Attester contacts the Verifier Manager to inform it
+   the Verifiers that need its Evidence. The Verifier Manager groups
+   all these Verifiers into the same group. Each Verifier
+   contacts the Verifier Manager as a Relying Party to know
+   other Verifiers that are interested in the same Attester.  
+   One of these Verifiers works as
+   the Relying Party for the Attester, and sends the attestation
+   request to the Attester. The Evidence from the Attester is only 
+   generated once and sent to this Verifier. This Verifier forwards
+   the Evidence to other Verifiers that in the same interesting group
+   and obtain the Attestation Results from them. It generates the
+   Aggregated Attestation Results and shares it within the Verifiers
+   in the same interesting group. In this manner, the Attester does not
+   need to generate the Evidence for every Verifier, and the attestation
+   procedure works even when certain Verifier does not work. 
 
    Source: TCG Trusted Application Protocol (TAP) Use Cases [TAP]
 
