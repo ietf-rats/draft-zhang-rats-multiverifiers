@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-24T01:37:25.890899+00:00",
+  "timestamp": "2025-04-27T01:41:56.721948+00:00",
   "repo": "ietf-rats/draft-zhang-rats-multiverifiers",
   "labels": [
     {
@@ -49,6 +49,23 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 1,
+      "id": "I_kwDOMwh1Ks6z3OVw",
+      "title": "Quick feedback on draft-01",
+      "url": "https://github.com/ietf-rats/draft-zhang-rats-multiverifiers/issues/1",
+      "state": "OPEN",
+      "author": "muhammad-usama-sardar",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "> time(AG): the time at the event that the Attestation Results for the same attester is aggregated.\n\n- What does \"same attester\" mean? More precisely, by examining which field RP would know that it is the same Attester?\n- Fig. 5 is a bit hard to read. Please conisder making it more readable. \n- What exactly does `Attestation Result{time(RX_v_1)-time(RG_v_1)}` mean? Does it mean AR is a function of this time difference?\n- s/Handing/Handling\n- s/indididually/individually",
+      "createdAt": "2025-04-24T15:05:01Z",
+      "updatedAt": "2025-04-24T15:06:57Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": []
 }
